@@ -1,0 +1,29 @@
+Facebook Connect Library for ColdFusion
+by James Constable
+me@jamesconstable.co.uk
+@weejames
+
+26/02/2010
+
+Intro:
+This library was created because I had to implement Facebook Connect on a website built in ColdFusion and the official Facebook Connect library is written in php.
+
+Usage:
+
+I'm assuming you've already set up the Javascript side of Facebook Connect and are just looking to access the connected Facebook account from ColdFusion.
+
+Create the object and call the init function to read the cookies which should be present on your site after the Facebook Connect process.
+<cfset facebook_obj = CreateObject("component", "path.to.facebook_connect").init("your_api_key", "your_api_secret") />
+
+Functions:
+getParams()
+Return the parameters that Facebook provided as part of the connect cookie.  These will come in useful depending on how you want to interact with Facebook.
+
+makeRequest(method:String, params:Struct)
+Makes a request to the Facebook API.  Provide the method you want to call and the paramaters you want to specify as a struct.  Full documentation on what you can and can't do is available at http://wiki.developers.facebook.com/index.php/Facebook_Connect
+
+isSessionValid()
+Checks that the user is still logged in to Facebook and that their session hasn't expired.
+
+connectLogout()
+Logs a user out of the current Facebook session.
