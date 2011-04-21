@@ -1,6 +1,6 @@
-<cfcomponent name="Facebook Connect" hint="Handles interaction with the Facebook Connect service">
+<cfcomponent name="FacebookConnect" hint="Handles interaction with the Facebook Connect service">
   
-	<cffunction name="init" access="public" output="false" returntype="Object">
+	<cffunction name="init" access="public" output="false" returntype="FacebookConnect">
 		<cfargument name="apikey" type="String" required="true" />
 		<cfargument name="secret" type="String" required="true" />
 
@@ -16,7 +16,7 @@
 		<cfreturn this />
 	</cffunction>
   
-	<cffunction name="makeRequest" access="public" output="false" returntype="Object" hint="Makes a request to the facebook api">
+	<cffunction name="makeRequest" access="public" output="false" returntype="Struct" hint="Makes a request to the facebook api">
 		<cfargument name="method" type="string" required="yes" />
 		<cfargument name="params" type="struct" required="no" default="#StructNew()#" />
 
@@ -33,6 +33,7 @@
 				<cfhttpparam name="#key#" value="#arguments.params[key]#" type="formfield" /> 
 			</cfloop>
 		</cfhttp>
+		
 		<cfset response = DeserializeJSON(cfhttp.filecontent) />
 
 		<cfif IsStruct(response) && StructKeyExists(response, 'error_code')>
@@ -189,7 +190,7 @@
 		<cfset var str = "" />
 		<cfset var sorted_keys = ListToArray(ListSort(StructKeyList(arguments.fb_params), 'textnocase')) />
 
-		<cfloop collection="#sorted_keys#" item="idx">
+		<cfloop array="#sorted_keys#" index="idx">
 			<cfset str &= sorted_keys[idx] & "=" & arguments.fb_params[sorted_keys[idx]] />
 		</cfloop>
 
